@@ -74,7 +74,7 @@
 
 <section class="section">
   <div class="frame">
-    <p class="sec-label">// &sect; 01 &middot; four families of failure</p>
+    <p class="sec-label">// &sect; 01 &middot; five families of failure</p>
     <div class="steps">
       <div class="step">
         <p class="step-n">01</p>
@@ -118,6 +118,19 @@
           Required contexts are repository facts too, so whether any
           workflow produces one, or two do, is only answerable across
           the whole set.</p>
+      </div>
+      <div class="step">
+        <p class="step-n">05</p>
+        <p class="step-t">Who can make the gate run at all</p>
+        <p class="step-d">A separate question from what the gate proves,
+          and the one with a severity attached. A workflow triggered by
+          an outside contributor may hold a write-scoped token, your
+          secrets, or a cloud credential, and reaching it needs no
+          access at all. Reachability is decided by evaluating the
+          condition in that contributor's world: a job restricted to
+          your own repository is unsatisfiable for a fork, and is
+          reported as unreachable with the reason rather than left
+          out.</p>
       </div>
     </div>
     <p class="muted" style="max-width:44rem;margin-top:1rem">
@@ -245,7 +258,41 @@
 
 <section class="section">
   <div class="frame">
-    <p class="sec-label">// &sect; 05 &middot; see it before you share anything</p>
+    <p class="sec-label">// &sect; 05 &middot; what the platform actually does</p>
+    <h2>Some of this is not documented anywhere.</h2>
+    <p class="muted" style="max-width:44rem">
+      A skipped job satisfies a required check. A step marked
+      continue-on-error reports success to
+      <span style="font-family:var(--mono,monospace)">needs</span>
+      while the jobs API reports failure, which is two of GitHub's own
+      surfaces disagreeing. A merge queue delivers
+      <span style="font-family:var(--mono,monospace)">merge_group</span>,
+      so a gate conditioned on the pull request event does not run there
+      and reports green anyway.
+    </p>
+    <p class="muted" style="max-width:44rem">
+      And one I had to establish myself, because nothing records it: a
+      later check run with the same name supersedes an earlier one. I
+      posted a failing required check on a repository I own, watched the
+      pull request block, posted a passing one on the same commit, and
+      watched it become mergeable. That makes
+      <span style="font-family:var(--mono,monospace)">checks: write</span>
+      not a reporting permission but the ability to clear any failing
+      gate.
+    </p>
+    <p class="muted" style="max-width:44rem">
+      Nine such assertions are published as executable checks and run
+      against production when the page is requested, so a claim that
+      stops being true stops being displayed. Several observe live
+      repositories directly. If GitHub changes something, the corpus
+      says NOT RUN rather than continuing to assert it.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="frame">
+    <p class="sec-label">// &sect; 06 &middot; see it before you share anything</p>
     <h2>The deliverable, downloadable now.</h2>
     <p class="muted" style="max-width:44rem">
       A complete sample review of a synthetic workflow: the one-page
@@ -313,7 +360,7 @@
 </section>
 <section class="section">
   <div class="frame">
-    <p class="sec-label">// &sect; 06 &middot; why this sits here</p>
+    <p class="sec-label">// &sect; 07 &middot; why this sits here</p>
     <p class="muted" style="max-width:44rem">
       Arcifact exists to stop systems asserting past their evidence.
       That problem is usually posed about language models, and most
