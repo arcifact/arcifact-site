@@ -122,15 +122,13 @@
       <div class="step">
         <p class="step-n">05</p>
         <p class="step-t">Who can make the gate run at all</p>
-        <p class="step-d">A separate question from what the gate proves,
-          and the one with a severity attached. A workflow triggered by
-          an outside contributor may hold a write-scoped token, your
-          secrets, or a cloud credential, and reaching it needs no
-          access at all. Reachability is decided by evaluating the
-          condition in that contributor's world: a job restricted to
-          your own repository is unsatisfiable for a fork, and is
-          reported as unreachable with the reason rather than left
-          out.</p>
+        <p class="step-d">A different question, and the one with a
+          severity attached. A workflow an outside contributor can
+          trigger may hold a write-scoped token, your secrets, or a
+          cloud credential. Whether they can reach it is decided by
+          evaluating the condition in their world, so a job restricted
+          to your own repository is reported unreachable, with the
+          reason.</p>
       </div>
     </div>
     <p class="muted" style="max-width:44rem;margin-top:1rem">
@@ -259,33 +257,23 @@
 <section class="section">
   <div class="frame">
     <p class="sec-label">// &sect; 05 &middot; what the platform actually does</p>
-    <h2>Some of this is not documented anywhere.</h2>
+    <h2>Some of this is not documented.</h2>
     <p class="muted" style="max-width:44rem">
       A skipped job satisfies a required check. A step marked
       continue-on-error reports success to
       <span style="font-family:var(--mono,monospace)">needs</span>
-      while the jobs API reports failure, which is two of GitHub's own
-      surfaces disagreeing. A merge queue delivers
+      while the jobs API reports failure. A merge queue delivers
       <span style="font-family:var(--mono,monospace)">merge_group</span>,
       so a gate conditioned on the pull request event does not run there
-      and reports green anyway.
+      and goes green anyway.
     </p>
     <p class="muted" style="max-width:44rem">
-      And one I had to establish myself, because nothing records it: a
-      later check run with the same name supersedes an earlier one. I
-      posted a failing required check on a repository I own, watched the
-      pull request block, posted a passing one on the same commit, and
-      watched it become mergeable. That makes
+      And one I had to test for myself: a later check run of the same
+      name replaces an earlier one, so
       <span style="font-family:var(--mono,monospace)">checks: write</span>
-      not a reporting permission but the ability to clear any failing
-      gate.
-    </p>
-    <p class="muted" style="max-width:44rem">
-      Nine such assertions are published as executable checks and run
-      against production when the page is requested, so a claim that
-      stops being true stops being displayed. Several observe live
-      repositories directly. If GitHub changes something, the corpus
-      says NOT RUN rather than continuing to assert it.
+      clears any failing gate. Nine such findings are published as
+      executable checks and rerun against production on request. When
+      one stops holding, it stops being shown.
     </p>
   </div>
 </section>
