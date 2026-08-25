@@ -509,20 +509,25 @@ h2, .claim-h { text-wrap: balance; }
 /* ---------- identity recut: the ring, the seal, the name ---------- */
 .nav-brand { gap: .6rem; margin-right: 0; }
 
-/* The mark, sized against the CAP HEIGHT of the name rather than in
-   fixed pixels.
-   The arc's ink fills 69% of its 24 unit viewBox, so a 21px box drew
-   14.4px of mark against a 12.1px cap height: 1.19 times, where 1.0 to
-   1.15 reads as matched. In px it also could not follow the text if the
-   name were ever resized.
-   1.17em gives 1.10 times cap height and scales with the name.
+/* The mark, sized against the CAP HEIGHT of the name.
 
-   The -.5px nudge was close: aligning boxes with align-items centres the
-   mark on the LINE box, which sits about a quarter pixel below the cap
-   centre because the descender space is empty for all capitals. Now
-   stated as the em value it actually is. */
-.nav-brand svg { width: 1.17em; height: 1.17em; stroke: none;
-  color: var(--color-accent); transform: translateY(-.015em); }
+   THE em UNIT RESOLVED AGAINST THE WRONG THING. .nav-brand sets
+   font-size: var(--text-sm), which is .8125rem, and the wordmark is a
+   SIBLING that sets its own 1.04rem. So 1.17em on the svg computed
+   against 13px rather than 16.64px, giving a 15.2px box, 10.4px of ink,
+   and a mark 0.86 times the height of the letters beside it. Visibly
+   smaller, which is what it looked like.
+
+   In rem, so it depends on nothing it does not control:
+   the wordmark is 1.04rem, Geist's cap height is about .73em, so the
+   capitals stand 12.15px. The arc fills 69% of its 24 unit viewBox, so
+   a 1.216rem box draws 13.4px of ink: 1.10 times cap height.
+
+   Vertically, align-items centres the mark on the LINE box. For all
+   capitals the descender space is empty, so the cap centre sits .25px
+   above the line centre and the mark needs to rise by exactly that. */
+.nav-brand svg { width: 1.216rem; height: 1.216rem; stroke: none;
+  color: var(--color-accent); transform: translateY(-.0156rem); }
 .nav-brand .wm { font-family: "Geist", var(--font-sans, system-ui);
   font-weight: 650; font-size: 1.04rem; letter-spacing: .13em;
   color: var(--color-ink-strong); }
