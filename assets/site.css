@@ -528,10 +528,14 @@ h2, .claim-h { text-wrap: balance; }
    Size: the wordmark is 1.04rem and Geist's cap height is about .73em,
    so the capitals stand 12.15px. The arc fills 69% of its 24 unit
    viewBox, so a 1.216rem box draws 13.36px of ink, 1.10 times the
-   letters. In rem because .nav-brand's own font-size is smaller than
+   letters. CORRECTED: rendering the mark and measuring the pixels gave
+   a fill of .853, not .687. The round linecap extends past the path
+   bounding box, which the arithmetic did not account for, so the mark
+   was drawing 1.34 times cap height rather than 1.10. .961rem gives
+   the 1.08 the logo file was measured at. In rem because .nav-brand's own font-size is smaller than
    the wordmark's, and em here resolved against the wrong one. */
 .nav-brand > span:first-of-type { display: flex; align-items: center; }
-.nav-brand svg { display: block; width: 1.216rem; height: 1.216rem;
+.nav-brand svg { display: block; width: 0.961rem; height: 0.961rem;
   stroke: none; color: var(--color-accent); }
 .nav-brand .wm { font-family: "Geist", var(--font-sans, system-ui);
   font-weight: 650; font-size: 1.04rem; letter-spacing: .13em;
