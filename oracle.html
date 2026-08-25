@@ -19,11 +19,25 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"The Oracle","url":"https://arcifact.io/oracle","isPartOf":{"@type":"WebSite","name":"Arcifact","url":"https://arcifact.io"}}</script>
 <link rel="stylesheet" href="assets/site.css?v=f5cf2acec1">
 <style>
-:root{--bg:#060914;--elev:#0b1120;--ink:#d5e2f0;--strong:#f2f7fd;
---mut:#8598b3;--rule:#1d2940;--cy:#6cd8e8;--mint:#5fdca3;--amb:#e0a86b}
+:root{
+      /* ALIASED TO THE SITE PALETTE.
+         These nine names are used by the rules below and were defined
+         with their own values, four of which had drifted from the site
+         stylesheet: ink, strong, mut and rule were all slightly off.
+         Aliasing rather than renaming keeps the rules untouched and
+         gives the page one source of truth. */
+      --bg: var(--color-page);
+      --elev: var(--color-surface, #0b1120);
+      --ink: var(--color-ink);
+      --strong: var(--color-ink-strong);
+      --mut: var(--color-ink-muted);
+      --rule: var(--color-rule);
+      --cy: var(--color-accent, #6cd8e8);
+      --mint: var(--color-positive, #5fdca3);
+      --amb: var(--color-warn, #e0a86b)}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);
-font:16px/1.65 ui-sans-serif,Geist,system-ui,sans-serif;padding:0 0 5rem}
+padding:0 0 5rem}
 .num,code,pre,small.raw{font-family:ui-monospace,"Geist Mono",Menlo,monospace}
 .wrap{max-width:var(--container-frame);margin:0 auto;padding:0 1.75rem}
 .wrap>h1,.wrap>p,.wrap>.lede,.wrap>.tour{max-width:46rem}
@@ -32,8 +46,8 @@ font:16px/1.65 ui-sans-serif,Geist,system-ui,sans-serif;padding:0 0 5rem}
 padding:.5rem 0;border-bottom:1px solid var(--rule);font-size:11px;
 letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
 font-family:ui-monospace,monospace}
-h1{font-weight:650;font-size:clamp(2.1rem,7vw,3.2rem);line-height:1.05;
-color:var(--strong);letter-spacing:-.02em;margin:1.8rem 0 .5rem}
+h1{font-weight:650;
+color:var(--strong);margin:1.8rem 0 .5rem}
 .sub{color:var(--ink)}
 .tour{position:sticky;top:0;z-index:9;background:#0d1a2e;
 border:1px solid var(--cy);padding:.7rem .9rem;margin:1rem 0;
