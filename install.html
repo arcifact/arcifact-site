@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Security disclosure &middot; Arcifact</title>
-<meta name="description" content="How to report a vulnerability to Arcifact Ltd and what to expect from us.">
-<link rel="canonical" href="https://arcifact.io/security">
+<title>Install &middot; Arcifact</title>
+<meta name="description" content="No cookies, no analytics, no trackers. What little we hold and your rights over it.">
+<link rel="canonical" href="https://arcifact.io/privacy">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Arcifact">
 <meta property="og:locale" content="en_GB">
-<meta property="og:title" content="Security disclosure &middot; Arcifact">
-<meta property="og:description" content="How to report a vulnerability to Arcifact Ltd and what to expect from us.">
-<meta property="og:url" content="https://arcifact.io/security">
+<meta property="og:title" content="Install &middot; Arcifact">
+<meta property="og:description" content="No cookies, no analytics, no trackers. What little we hold and your rights over it.">
+<meta property="og:url" content="https://arcifact.io/privacy">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="https://arcifact.io/og.png">
 <meta property="og:image:width" content="1200">
@@ -51,32 +51,95 @@
   </div>
 
 <div class="hero">
-  <div class="hero-rule">Policy</div>
-  <h1>Security disclosure.<br><span class="turn">How to reach me.</span></h1>
-  <p class="lede">Found something wrong in our instruments, our
-  scorer, our site or our conduct? Tell me directly and I will deal
-  with it directly.</p>
+  <div class="hero-rule">Install</div>
+  <h1>Install.<br><span class="turn">What it asks for, and what stops it.</span></h1>
+  <p class="lede">Read this before you grant anything. Every claim below
+  is enforced by a named mechanism, not by our intention.</p>
 </div>
+
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 01</b> &middot; reporting</div>
-  <h2>Write to security@arcifact.io.</h2>
-  <p>Include what you found, where, and how to reproduce it. For
-  scorer or bank issues, attach the output of
-  <span class="k" style="font-family:var(--font-mono)">tools/verify_hashes.py</span>
-  and a minimal responses file. I acknowledge within three working
-  days and keep you informed until resolution. A machine-readable
-  copy of this policy lives at
-  <a href="/.well-known/security.txt">/.well-known/security.txt</a>.</p>
-</section>
-<section class="section legal">
-  <div class="sec-label">// <b>&sect; 02</b> &middot; good faith</div>
-  <h2>Test honestly and I will treat you honestly.</h2>
-  <p>Good-faith research against my published surfaces is welcome.
-  Do not access data that is not yours, degrade service for others,
-  or publish before I have had a fair chance to fix. I do not run a
-  bounty programme yet; I do credit reporters who want credit.</p>
+  <div class="sec-label">// <b>&sect; 01</b> &middot; permissions</div>
+  <h2>Four reads and one write.</h2>
+  <p><b>contents: read</b> &middot; to read your workflow files. Nothing
+  else in the repository is requested.<br>
+  <b>pull_requests: read</b> &middot; to see which commits to compare.<br>
+  <b>actions: read</b> &middot; to observe whether checks actually ran.<br>
+  <b>metadata: read</b> &middot; required by GitHub for any App.<br>
+  <b>checks: write</b> &middot; to post its own check run.</p>
+  <p>That last one deserves the honest version. Our own analysis calls
+  <code>checks: write</code> the ability to clear any failing gate,
+  because a later check run of the same name supersedes an earlier one.
+  We hold it and cannot work without it.</p>
+  <p>What makes it safe here is that this App <b>never asks to be a
+  required check</b>. Nothing depends on the run it posts, so superseding
+  it changes no merge decision. If you make it required, that stops being
+  true, and we would rather you did not.</p>
 </section>
 
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 02</b> &middot; what it will not do</div>
+  <h2>Three promises, each with the thing that enforces it.</h2>
+  <p><b>It never blocks a merge.</b> The App does not ask to be a
+  required check, and never modifies a ruleset. Promotion is your
+  decision, taken after watching it be right.</p>
+  <p><b>It never posts a failure it cannot support.</b> When it cannot
+  complete an analysis it returns neutral and says why. A green posted
+  through our own failure would be a green with no evidence behind it,
+  which is the failure this product exists to detect.</p>
+  <p><b>It does not read your source.</b> Five paths: the workflow
+  directory, and four locations for an optional <code>WARRANT</code>
+  file. Nothing else is requested, and private repository contents are
+  never used as training data.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 03</b> &middot; what it costs</div>
+  <h2>Nothing to install. Nothing on public repositories, ever.</h2>
+  <p>On private repositories the first five committers are free on every
+  plan, and above that it is priced per committer with the rate falling
+  as the team grows. <a href="pricing">The rates are published</a>.</p>
+  <p>Installing does not subscribe you to anything and does not ask for a
+  card. The App works before you pay.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 04</b> &middot; see it first</div>
+  <h2>You do not have to install anything to check whether it is right.</h2>
+  <p><a href="https://arcifact-gate.founder-ada.workers.dev/r/arcifact-dev/gate-demo">
+  arcifact.io/r/&lt;org&gt;/&lt;repo&gt;</a> analyses any public
+  repository with no installation and no account. The
+  <a href="https://github.com/arcifact/arcifact-kit">verifiers are
+  public</a>, so anything a report claims can be rechecked offline
+  without trusting our code.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 05</b> &middot; what is not promised</div>
+  <h2>No uptime, no response time, no accuracy rate.</h2>
+  <p>The analysis depends on GitHub's API and on infrastructure we do not
+  own, and a number we cannot control is not a commitment we can make.
+  What it commits to instead is failing closed: when it cannot decide, it
+  says so and claims nothing.</p>
+  <p>Removing it is one click in your organisation's settings, and
+  analysis stops immediately. One line on why you removed it is worth
+  more to us than the install was.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 06</b> &middot; install</div>
+  <h2>One click, on the repositories you choose.</h2>
+  <p style="margin-top:1.25rem">
+    <a class="btn" href="https://github.com/apps/arcifact-gate">Install
+    the App on GitHub</a>
+  </p>
+  <p class="muted">Choose <b>Only select repositories</b> unless you have
+  a reason not to. You can add more at any time, and the App will tell
+  you what each one proves the first time it sees it.</p>
+  <p class="muted">This page is the contract in prose. The same thing
+  <a href="https://arcifact-gate.founder-ada.workers.dev/install">as
+  plain text</a>, generated from the gates that enforce it, is what a
+  machine should read.</p>
+</section>
 </main>
 <footer class="site-foot">
   <div class="frame">
