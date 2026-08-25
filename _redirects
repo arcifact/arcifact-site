@@ -1,0 +1,6 @@
+# The analyser is advertised as arcifact.io/r/<org>/<repo> and must be
+# reachable there. It runs on the worker; proxying keeps the address we
+# publish true rather than asking the reader to accept a different one.
+/r/*    https://arcifact-gate.founder-ada.workers.dev/r/:splat    200
+/install-contract   https://arcifact-gate.founder-ada.workers.dev/install   200
+/semantics          https://arcifact-gate.founder-ada.workers.dev/semantics 200

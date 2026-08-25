@@ -126,13 +126,21 @@ history.</p>
 </section>
 <section class="section">
   <div class="sec-label">// <b>&sect;</b> &middot; reproduce it</div>
-  <h2>Four commands between you and your own copy of this table.</h2>
+  <h2>Four commands between you and your own row in this table.</h2>
   <div class="cmd">
 <b>$</b> git clone https://github.com/arcifact/arcifact-kit &amp;&amp; cd arcifact-kit<br>
 <b>$</b> python tools/verify_hashes.py<br>
 <b>$</b> python tools/run_frontier.py banks/evalw_numeric.jsonl out/r.jsonl<br>
 <b>$</b> python tools/grade_public.py banks/evalw_numeric.jsonl out/r.jsonl --pretty</div>
   <p class="muted" style="font-size:var(--text-sm);margin-top:.9rem">
+  Being exact about what that reproduces. The bank bytes, the scorer
+  semantics and the grading are fully public, so you can verify the
+  instrument and score <b>your own system</b> under it. What these
+  commands do not do is regenerate the rows below: those were produced
+  from our reference response files, which are audit-only unless
+  explicitly published, so our numbers are provenance-bound rather than
+  publicly recomputable. The instrument reproduces; our runs are
+  auditable.<br><br>
   The runner drives any endpoint you configure; responses stay on
   your disk. Full policy:
   <a href="https://github.com/arcifact/arcifact-kit/blob/main/docs/PROTOCOL.md">the
