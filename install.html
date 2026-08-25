@@ -67,9 +67,11 @@
   <b>metadata: read</b> &middot; required by GitHub for any App.<br>
   <b>checks: write</b> &middot; to post its own check run.</p>
   <p>That last one deserves the honest version. Our own analysis calls
-  <code>checks: write</code> the ability to clear any failing gate,
-  because a later check run of the same name supersedes an earlier one.
-  We hold it and cannot work without it.</p>
+  <code>checks: write</code> the ability to clear a failing check of the
+  same name, because a later check run supersedes an earlier one in the
+  combined status. We hold it and cannot work without it. GitHub can bind
+  a required check to an expected app, which narrows the route where it
+  is set.</p>
   <p>What makes it safe here is that this App <b>never asks to be a
   required check</b>. Nothing depends on the run it posts, so superseding
   it changes no merge decision. If you make it required, that stops being
@@ -86,10 +88,15 @@
   complete an analysis it returns neutral and says why. A green posted
   through our own failure would be a green with no evidence behind it,
   which is the failure this product exists to detect.</p>
-  <p><b>It does not read your source.</b> Five paths: the workflow
-  directory, and four locations for an optional <code>WARRANT</code>
-  file. Nothing else is requested, and private repository contents are
-  never used as training data.</p>
+  <p><b>It requests five paths, and only five.</b> The workflow directory
+  and four locations for an optional <code>WARRANT</code> file. Being
+  precise about what enforces that: GitHub's
+  <code>contents: read</code> is repository-wide and the platform does
+  not confine a token to selected paths. What confines it is our client,
+  which is written and tested to fetch those five and nothing else, and
+  whose behaviour you can check by reading it. Private repository
+  contents are never used as training data, which is a contractual and
+  organisational control rather than a platform one.</p>
 </section>
 
 <section class="section legal">

@@ -87,8 +87,14 @@
   posting our own check run. We use that to compute what your required
   checks establish, on the lawful basis of contract, and we keep the
   analysis and the identifiers needed to attach it to the right commit.
-  We do not clone your repositories, we do not read your source files, and we do not use private
-  repository contents as training data.</p>
+  We do not clone your repositories and we do not read your source
+  files. Being precise about what enforces that: GitHub's contents
+  permission is repository-wide and the platform does not confine a
+  token to selected paths, so what limits us is our own client, which is
+  written and tested to fetch the workflow directory and nothing else.
+  Private repository contents are never used as training data, which is
+  a contractual and organisational control rather than a platform
+  one.</p>
   <p>It also looks for a file named WARRANT, at the repository root or in
   .github, in which a repository can declare what its own checks are meant
   to establish. That file is optional and most repositories do not have
@@ -160,13 +166,34 @@
 </section>
 <section class="section legal">
   <div class="sec-label">// <b>&sect; 08</b> &middot; who else touches it</div>
-  <h2>Four processors, named, and no others.</h2>
-  <p>Cloudflare, Inc. serves this site and the receiver. Modal Labs, Inc.
-  runs the analyser. Stripe Payments Europe handles payment. Twilio
-  Ireland operates the support number. Each is bound by a data processing
-  agreement and by the standard contractual clauses where data leaves the
-  UK. That is the complete list. We do not sell data, we do not share it
-  for advertising, and there is no other recipient.</p>
+  <h2>Every subprocessor, what it does, and where.</h2>
+  <p>This page previously said "four processors and no others" while
+  naming GitHub and our email provider elsewhere on it. A count is easy
+  to write and easy to falsify, so here is the table instead.</p>
+  <p class="muted">
+  <b>Cloudflare, Inc.</b> &middot; serves this site and the webhook
+  receiver &middot; IP addresses and request metadata &middot; global
+  edge &middot; provider's rolling log schedule<br>
+  <b>Modal Labs, Inc.</b> &middot; runs the analyser &middot; workflow
+  files and commit identifiers &middot; United States &middot; for the
+  duration of an analysis<br>
+  <b>GitHub, Inc.</b> &middot; the source of the data and where our check
+  runs go &middot; repository content and pull request metadata &middot;
+  United States &middot; governed by your own agreement with GitHub<br>
+  <b>Stripe Payments Europe, Ltd.</b> &middot; payment &middot; billing
+  name, email, address, country, card last four &middot; Ireland and
+  United States &middot; six years, UK accounting law<br>
+  <b>Proton AG</b> &middot; our email &middot; correspondence you send us
+  &middot; Switzerland &middot; until you ask us to delete it<br>
+  <b>Twilio Ireland, Ltd.</b> &middot; the support telephone number
+  &middot; calling number and time &middot; Ireland &middot; provider's
+  schedule
+  </p>
+  <p>Each is bound by a data processing agreement, and by the UK
+  International Data Transfer Addendum or standard contractual clauses
+  where data leaves the UK. Adding one is a change to this page and we
+  will tell account holders before it takes effect. We do not sell data
+  and we do not share it for advertising.</p>
 </section>
 <section class="section legal">
   <div class="sec-label">// <b>&sect; 09</b> &middot; your rights</div>

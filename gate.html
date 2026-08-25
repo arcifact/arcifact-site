@@ -267,13 +267,19 @@
       while the jobs API reports failure. A merge queue delivers
       <span style="font-family:var(--mono,monospace)">merge_group</span>,
       so a gate conditioned on the pull request event does not run there
-      and goes green anyway.
+      at all. Whether that reads as a pass or blocks the queue depends on
+      how the check is required, which is a repository setting we cannot
+      see from outside, so the report says the gate is absent from the
+      queue rather than asserting the outcome.
     </p>
     <p class="muted" style="max-width:44rem">
       And one I had to test for myself: a later check run of the same
-      name replaces an earlier one, so
-      <span style="font-family:var(--mono,monospace)">checks: write</span>
-      clears any failing gate. Nine such findings are published as
+      name supersedes an earlier one in the combined status, so an app
+      holding <span style="font-family:var(--mono,monospace)">checks:
+      write</span> can clear a failing check of that name. GitHub can
+      bind a required check to an expected app, which narrows this; where
+      that binding is set, and we usually cannot see whether it is, the
+      route closes. Nine such findings are published as
       executable checks and rerun against production on request. When
       one stops holding, it stops being shown.
     </p>
@@ -341,9 +347,10 @@
     <p class="muted" style="max-width:44rem">
       Unpack it and run
       <span style="font-family:var(--mono,monospace)">python3 verify.py
-      ci.yml certificate.json</span>. It needs Python and pyyaml, no
-      network, and none of my code is trusted: it reads the workflow and
-      recomputes every claim. Then try to break it. Add the flagged job
+      ci.yml record.json</span>. It needs Python and pyyaml, no network,
+      and no Arcifact service: the verifier is included in the package
+      and its source is there to read. It recomputes every claim from
+      the workflow rather than trusting the record. Then try to break it. Add the flagged job
       to the gate's needs and it reports NOT CONFIRMED. Change one byte
       of the workflow and it says the source no longer matches. A
       verifier that always confirms is worthless.
@@ -359,7 +366,7 @@
         <p class="step-n">02</p>
         <p class="step-t">Turnaround</p>
         <p class="step-d">A first read is an afternoon. You get the same
-          five files as the sample, for your workflow.</p>
+          verification package as the sample, for your workflow.</p>
       </div>
       <div class="step">
         <p class="step-n">03</p>
