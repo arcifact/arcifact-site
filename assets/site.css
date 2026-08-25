@@ -508,8 +508,21 @@ h2, .claim-h { text-wrap: balance; }
 
 /* ---------- identity recut: the ring, the seal, the name ---------- */
 .nav-brand { gap: .6rem; margin-right: 0; }
-.nav-brand svg { width: 21px; height: 21px; stroke: none;
-  color: var(--color-accent); transform: translateY(-.5px); }
+
+/* The mark, sized against the CAP HEIGHT of the name rather than in
+   fixed pixels.
+   The arc's ink fills 69% of its 24 unit viewBox, so a 21px box drew
+   14.4px of mark against a 12.1px cap height: 1.19 times, where 1.0 to
+   1.15 reads as matched. In px it also could not follow the text if the
+   name were ever resized.
+   1.17em gives 1.10 times cap height and scales with the name.
+
+   The -.5px nudge was close: aligning boxes with align-items centres the
+   mark on the LINE box, which sits about a quarter pixel below the cap
+   centre because the descender space is empty for all capitals. Now
+   stated as the em value it actually is. */
+.nav-brand svg { width: 1.17em; height: 1.17em; stroke: none;
+  color: var(--color-accent); transform: translateY(-.015em); }
 .nav-brand .wm { font-family: "Geist", var(--font-sans, system-ui);
   font-weight: 650; font-size: 1.04rem; letter-spacing: .13em;
   color: var(--color-ink-strong); }
