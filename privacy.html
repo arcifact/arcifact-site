@@ -87,12 +87,23 @@
   posting our own check run. We use that to compute what your required
   checks establish, on the lawful basis of contract, and we keep the
   analysis and the identifiers needed to attach it to the right commit.
-  We do not clone your repositories, we do not read source files outside
-  the workflow directory, and we do not use private repository contents
-  as training data.</p>
-  <p>Analysis records are deleted within thirty days of you uninstalling
-  or terminating, except where we must keep something for legal or
-  accounting reasons. Uninstalling stops all analysis immediately.
+  We do not clone your repositories, we do not read your source files, and we do not use private
+  repository contents as training data.</p>
+  <p>It also looks for a file named WARRANT, at the repository root or in
+  .github, in which a repository can declare what its own checks are meant
+  to establish. That file is optional and most repositories do not have
+  one; we look, and if it is absent we move on. Those five paths, the
+  workflow directory and the four WARRANT locations, are the only
+  contents we request.</p>
+  <p>Most of what we hold expires on its own. Cached analysis carries a
+  time to live measured in hours, so it is gone without anybody doing
+  anything, and we keep no database of your repository contents. The
+  exception is a seal, which is a record of a warrant you approved: that
+  persists because it is the thing a later analysis is compared against,
+  and it belongs to you. Anything still held is deleted within thirty
+  days of you uninstalling or terminating, except where we must keep
+  something for legal or accounting reasons. Uninstalling stops all
+  analysis immediately.
   GitHub, Inc. is a processor for this data in the sense that it is
   where the data comes from and where our check runs go; its own handling
   is governed by your agreement with GitHub.</p>
