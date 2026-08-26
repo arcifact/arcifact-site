@@ -92,10 +92,19 @@
   organisation. If they did not commit, they do not count, and a
   contractor who finishes a project stops counting ninety days later
   without you having to remember.</p>
-  <p>You set the number when you subscribe. We do not audit it. If it
-  drifts far from what GitHub reports we will write to you rather than
-  charge you, because a bill that arrives larger than expected is a
-  worse experience than a conversation.</p>
+  <p>You set the number when you subscribe, and the App derives it too:
+  it counts distinct commit authors across the repositories your
+  installation covers, over the same ninety days, excluding bots. That
+  number is shown to you, never used to charge you automatically.</p>
+  <p>Where the two differ we write to you. A bill that arrives larger
+  than expected is a worse experience than a conversation, and a
+  supplier who silently adjusts your invoice upward has taught you not
+  to trust the invoice.</p>
+  <p class="muted">Automation is excluded on the login rather than the
+  email, because an email can be spoofed into any shape and a login
+  cannot. Against a real project this excluded seven bot authors out of
+  sixteen, which is the difference between a fair bill and an annoying
+  one.</p>
 </section>
 
 <section class="section legal">
@@ -113,7 +122,28 @@
 </section>
 
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 04</b> &middot; subscribing</div>
+  <div class="sec-label">// <b>&sect; 04</b> &middot; what it comes to</div>
+  <h2>Your number, without doing the arithmetic.</h2>
+  <p>Marginal bands are correct and tiring to compute by hand, so here
+  is the table rather than a formula.</p>
+  <p class="muted">
+  5 committers &middot; <b>free</b><br>
+  10 &middot; &pound;1,200 a year &middot; &pound;120 a head<br>
+  25 &middot; &pound;4,800 &middot; &pound;192 a head<br>
+  50 &middot; &pound;9,360 &middot; &pound;187 a head<br>
+  100 &middot; &pound;17,760 &middot; &pound;178 a head<br>
+  200 &middot; &pound;30,000 &middot; &pound;150 a head<br>
+  400 &middot; &pound;54,000 &middot; &pound;135 a head
+  </p>
+  <p>Monthly is a tenth of the annual figure, so paying yearly is two
+  months free. Every figure here is computed from the same table the
+  checkout uses, and a test asserts they cannot diverge: a calculator
+  that quotes a different number from the payment page is worse than no
+  calculator.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 05</b> &middot; subscribing</div>
   <h2>Two links. No sales call unless you want one.</h2>
   <p>Set your committer count on the payment page. Stripe collects the
   VAT number if you have one and applies reverse charge where it
@@ -129,7 +159,7 @@
 </section>
 
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 05</b> &middot; leaving</div>
+  <div class="sec-label">// <b>&sect; 06</b> &middot; leaving</div>
   <h2>Cancel from the billing portal, effective at the end of the term.</h2>
   <p>We do not refund the unused part of a term you chose to leave, and
   we do not charge you again after you cancel. If we discontinue a paid
@@ -144,7 +174,7 @@
 </section>
 
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 06</b> &middot; larger, or different</div>
+  <div class="sec-label">// <b>&sect; 07</b> &middot; larger, or different</div>
   <h2>Above four hundred committers, or anything that does not fit.</h2>
   <p>The rate keeps falling above 406, and at that size you probably want
   an invoice, a purchase order and a conversation rather than a card
