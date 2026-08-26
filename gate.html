@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Arcifact Gate &middot; CI merge-gate assurance</title>
-<meta name="description" content="Arcifact Gate finds the ways a required GitHub check can turn green without the validation behind it succeeding: a missing dependency, an ignored result, a conditional gap, or a failure step suppressed by a predicate an upstream job never produced.">
+<meta name="description" content="Find the ways a required GitHub Actions check can pass while the job it names fails. Source-bound evidence, checked counterexamples, verified offline.">
 <link rel="canonical" href="https://arcifact.io/gate">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Arcifact">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Arcifact Gate &middot; a green gate is a claim">
-<meta property="og:description" content="Check what your required check actually proves. One workflow file, no repository access, and a verifier you run yourself.">
+<meta property="og:description" content="Find the ways a required GitHub Actions check can pass while the job it names fails. Source-bound evidence, checked counterexamples, verified offline.">
 <meta property="og:url" content="https://arcifact.io/gate">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="https://arcifact.io/og-gate.png">
@@ -27,6 +27,9 @@
 "sameAs":["https://github.com/arcifact/arcifact-kit"],
 "contactPoint":{"@type":"ContactPoint","email":"ben@arcifact.io",
 "contactType":"sales"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Arcifact Gate","applicationCategory":"DeveloperApplication","applicationSubCategory":"Continuous integration analysis","operatingSystem":"Any, runs as a GitHub App","url":"https://arcifact.io/gate","description":"Analyses GitHub Actions workflows and reports what a required status check actually establishes, with a checked counterexample where one exists and a record that can be verified offline.","publisher":{"@type":"Organization","name":"Arcifact Ltd","url":"https://arcifact.io"},"offers":[{"@type":"Offer","name":"Public repositories","price":"0","priceCurrency":"GBP","description":"Every public repository, analysed free, permanently."},{"@type":"Offer","name":"First five committers","price":"0","priceCurrency":"GBP","description":"The first five committers are free on every plan."},{"@type":"Offer","name":"Per committer, annual","price":"240","priceCurrency":"GBP","description":"Per committer per year from the sixth, falling to 168, then 120, then 96 as the team grows.","url":"https://arcifact.io/pricing"}],"featureList":["Finds jobs that can fail while a required check still passes","Constructs a checked counterexample rather than asserting a rule","Distinguishes a structural fact from a policy decision","Emits SARIF for import into existing security tooling","Records are source-bound and verifiable offline"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my required check pass when a job failed?","acceptedAnswer":{"@type":"Answer","text":"Most often the aggregate job neither depends on that job nor inspects its result, so the job's failure never reaches the check. A skipped job also satisfies a required check, and a step marked continue-on-error reports success to needs while the jobs API reports failure."}},{"@type":"Question","name":"What is a blindness set in a CI gate?","acceptedAnswer":{"@type":"Answer","text":"The largest set of jobs that can all fail while the required check still reports success. Arcifact Gate proves it maximal by enumeration rather than estimating it, so it is a statement about what a green result does not establish."}},{"@type":"Question","name":"Does a merge queue change what a required check proves?","acceptedAnswer":{"@type":"Answer","text":"Yes. A merge queue delivers the merge_group event, so a gate conditioned on pull_request does not run there at all. Whether that reads as a pass or blocks the queue depends on how the check is required, which is a repository setting not visible from outside."}},{"@type":"Question","name":"Can a GitHub App with checks: write clear a failing check?","acceptedAnswer":{"@type":"Answer","text":"A later check run of the same name supersedes an earlier one in the combined status, so an app holding checks: write can clear a failing check of that name. GitHub can bind a required check to an expected app, which closes the route where it is set."}},{"@type":"Question","name":"How much does Arcifact Gate cost?","acceptedAnswer":{"@type":"Answer","text":"Public repositories are free permanently and the first five committers are free on every plan. Above that it is 240 pounds per committer per year, falling to 168, 120 and 96 as the team grows. Each band applies only to the committers inside it."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Arcifact","item":"https://arcifact.io/"},{"@type":"ListItem","position":2,"name":"Gate","item":"https://arcifact.io/gate"}]}</script>
 </head>
 <body style="background:#060914;color:#cdddee">
 <a class="skip" href="#main">Skip to content</a>
@@ -446,6 +449,59 @@ of my work is there. Continuous integration has the same problem. A green requir
   </div>
 </section>
 
+<section class="section">
+  <div class="frame">
+    <p class="sec-label">// questions people actually ask</p>
+    <h2>Common questions.</h2>
+
+    <p class="muted" style="max-width:44rem"><b>Why does my required
+    check pass when a job failed?</b><br>
+    Most often the aggregate job neither depends on that job nor
+    inspects its result, so the failure never reaches the check. A
+    skipped job also satisfies a required check, and a step marked
+    <span style="font-family:var(--mono,monospace)">continue-on-error</span>
+    reports success to
+    <span style="font-family:var(--mono,monospace)">needs</span> while
+    the jobs API reports failure.</p>
+
+    <p class="muted" style="max-width:44rem"><b>What is a blindness
+    set?</b><br>
+    The largest set of jobs that can all fail while the required check
+    still reports success. Gate proves it maximal by enumeration rather
+    than estimating it, so it is a statement about what a green result
+    does not establish rather than a guess at risk.</p>
+
+    <p class="muted" style="max-width:44rem"><b>Does a merge queue
+    change what a required check proves?</b><br>
+    Yes. A merge queue delivers
+    <span style="font-family:var(--mono,monospace)">merge_group</span>,
+    so a gate conditioned on
+    <span style="font-family:var(--mono,monospace)">pull_request</span>
+    does not run there at all. Whether that reads as a pass or blocks
+    the queue depends on how the check is required, which is a
+    repository setting we cannot see from outside, so the report says
+    the gate is absent rather than asserting the outcome.</p>
+
+    <p class="muted" style="max-width:44rem"><b>Can an App with
+    <span style="font-family:var(--mono,monospace)">checks: write</span>
+    clear a failing check?</b><br>
+    A later check run of the same name supersedes an earlier one in the
+    combined status, so an app holding that permission can clear a
+    failing check of that name. GitHub can bind a required check to an
+    expected app, which closes the route where it is set. We hold
+    <span style="font-family:var(--mono,monospace)">checks: write</span>
+    and never ask to be a required check, so nothing depends on the run
+    we post.</p>
+
+    <p class="muted" style="max-width:44rem"><b>How much does it
+    cost?</b><br>
+    Public repositories are free permanently and the first five
+    committers are free on every plan. Above that it is &pound;240 per
+    committer per year, falling to &pound;168, &pound;120 and &pound;96
+    as the team grows, each band applying only to the committers inside
+    it. <a href="pricing">Full pricing</a>.</p>
+  </div>
+</section>
 </main>
 <footer class="site-foot">
   <div class="frame">
