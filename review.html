@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Install Arcifact Gate &middot; what it asks for, and what stops it</title>
-<meta name="description" content="The four reads and one write the App requests, what enforces each promise, and what it costs. Installing does not subscribe you to anything.">
+<title>Request a workflow review &middot; Arcifact</title>
+<meta name="description" content="A private, source-bound review of what your required checks actually establish. One repository, an afternoon to read, and an offline verifier so you need not trust us.">
 <link rel="canonical" href="https://arcifact.io/privacy">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Arcifact">
 <meta property="og:locale" content="en_GB">
-<meta property="og:title" content="Install Arcifact Gate &middot; what it asks for, and what stops it">
-<meta property="og:description" content="The four reads and one write the App requests, what enforces each promise, and what it costs. Installing does not subscribe you to anything.">
+<meta property="og:title" content="Request a workflow review &middot; Arcifact">
+<meta property="og:description" content="No cookies, no analytics, no trackers. What little we hold and your rights over it.">
 <meta property="og:url" content="https://arcifact.io/privacy">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="https://arcifact.io/og.png">
@@ -51,101 +51,80 @@
   </div>
 
 <div class="hero">
-  <div class="hero-rule">Install</div>
-  <h1>Install.<br><span class="turn">What it asks for, and what stops it.</span></h1>
-  <p class="lede">Read this before you grant anything. Every claim below
-  is enforced by a named mechanism, not by our intention.</p>
+  <div class="hero-rule">Review</div>
+  <h1>A workflow review.<br><span class="turn">One repository, read properly.</span></h1>
+  <p class="lede">What your required checks establish, what they do not,
+  and a record you can recheck offline without trusting us.</p>
 </div>
 
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 01</b> &middot; permissions</div>
-  <h2>Four reads and one write.</h2>
-  <p><b>contents: read</b> &middot; to read your workflow files. Nothing
-  else in the repository is requested.<br>
-  <b>pull_requests: read</b> &middot; to see which commits to compare.<br>
-  <b>actions: read</b> &middot; to observe whether checks actually ran.<br>
-  <b>metadata: read</b> &middot; required by GitHub for any App.<br>
-  <b>checks: write</b> &middot; to post its own check run.</p>
-  <p>That last one deserves the honest version. Our own analysis calls
-  <code>checks: write</code> the ability to clear a failing check of the
-  same name, because a later check run supersedes an earlier one in the
-  combined status. We hold it and cannot work without it. GitHub can bind
-  a required check to an expected app, which narrows the route where it
-  is set.</p>
-  <p>What makes it safe here is that this App <b>never asks to be a
-  required check</b>. Nothing depends on the run it posts, so superseding
-  it changes no merge decision. If you make it required, that stops being
-  true, and we would rather you did not.</p>
+  <div class="sec-label">// <b>&sect; 01</b> &middot; what you get</div>
+  <h2>A source-bound record, not a slide.</h2>
+  <p>Every finding names the file, the job and the line it came from, and
+  carries a checked counterexample: one concrete combination of results in
+  which the check passes and the thing it is named for did not happen. If
+  no counterexample exists, no finding is made.</p>
+  <p>The package includes a self-contained verifier. You run it against
+  your own copy of the workflow and it recomputes every claim, so the
+  question is never whether you believe our analysis.</p>
+  <p class="muted">A first read is an afternoon, not a procurement cycle.
+  <a href="downloads/arcifact-gate-sample-report-v1.3.0.tar.gz">The
+  sample package</a> is the same shape you would receive.</p>
 </section>
 
 <section class="section legal">
-  <div class="sec-label">// <b>&sect; 02</b> &middot; what it will not do</div>
-  <h2>Three promises, each with the thing that enforces it.</h2>
-  <p><b>It never blocks a merge.</b> The App does not ask to be a
-  required check, and never modifies a ruleset. Promotion is your
-  decision, taken after watching it be right.</p>
-  <p><b>It never posts a failure it cannot support.</b> When it cannot
-  complete an analysis it returns neutral and says why. A green posted
-  through our own failure would be a green with no evidence behind it,
-  which is the failure this product exists to detect.</p>
-  <p><b>It requests five paths, and only five.</b> The workflow directory
-  and four locations for an optional <code>WARRANT</code> file. Being
-  precise about what enforces that: GitHub's
-  <code>contents: read</code> is repository-wide and the platform does
-  not confine a token to selected paths. What confines it is our client,
-  which is written and tested to fetch those five and nothing else, and
-  whose behaviour you can check by reading it. Private repository
-  contents are never used as training data, which is a contractual and
-  organisational control rather than a platform one.</p>
-</section>
-
-<section class="section legal">
-  <div class="sec-label">// <b>&sect; 03</b> &middot; what it costs</div>
-  <h2>Nothing to install. Nothing on public repositories, ever.</h2>
-  <p>On private repositories the first five committers are free on every
-  plan, and above that it is priced per committer with the rate falling
-  as the team grows. <a href="pricing">The rates are published</a>.</p>
-  <p>Installing does not subscribe you to anything and does not ask for a
-  card. The App works before you pay.</p>
-</section>
-
-<section class="section legal">
-  <div class="sec-label">// <b>&sect; 04</b> &middot; see it first</div>
-  <h2>You do not have to install anything to check whether it is right.</h2>
-  <p><a href="/r/arcifact-dev/gate-demo">
-  arcifact.io/r/&lt;org&gt;/&lt;repo&gt;</a> analyses any public
-  repository with no installation and no account. The
-  <a href="https://github.com/arcifact/arcifact-kit">verifiers are
-  public</a>, so anything a report claims can be rechecked offline
-  without trusting our code.</p>
-</section>
-
-<section class="section legal">
-  <div class="sec-label">// <b>&sect; 05</b> &middot; what is not promised</div>
-  <h2>No uptime, no response time, no accuracy rate.</h2>
-  <p>The analysis depends on GitHub's API and on infrastructure we do not
-  own, and a number we cannot control is not a commitment we can make.
-  What it commits to instead is failing closed: when it cannot decide, it
-  says so and claims nothing.</p>
-  <p>Removing it is one click in your organisation's settings, and
-  analysis stops immediately. One line on why you removed it is worth
-  more to us than the install was.</p>
-</section>
-
-<section class="section legal">
-  <div class="sec-label">// <b>&sect; 06</b> &middot; install</div>
-  <h2>One click, on the repositories you choose.</h2>
-  <p style="margin-top:1.25rem">
-    <a class="btn" href="https://github.com/apps/arcifact-gate">Install
-    the App on GitHub</a>
+  <div class="sec-label">// <b>&sect; 02</b> &middot; what we need</div>
+  <h2>Six answers, and no files on this page.</h2>
+  <p>Send these to
+  <a href="mailto:review@arcifact.io?subject=Workflow%20review%20request&amp;body=1.%20Company%3A%0A2.%20Repository%20is%20public%20or%20private%3A%0A3.%20If%20public%2C%20the%20URL%3A%0A4.%20Roughly%20how%20many%20workflow%20files%3A%0A5.%20Which%20checks%20are%20required%2C%20if%20you%20know%3A%0A6.%20Do%20you%20need%20an%20NDA%20or%20a%20secure%20transfer%20link%3F%0A">review@arcifact.io</a>,
+  which opens a message with the questions already in it.</p>
+  <p class="muted">
+  1 &middot; your company<br>
+  2 &middot; is the repository public or private<br>
+  3 &middot; if public, the URL, and we can start without anything else<br>
+  4 &middot; roughly how many workflow files<br>
+  5 &middot; which checks are required, if you know<br>
+  6 &middot; do you need an NDA or a secure transfer link
   </p>
-  <p class="muted">Choose <b>Only select repositories</b> unless you have
-  a reason not to. You can add more at any time, and the App will tell
-  you what each one proves the first time it sees it.</p>
-  <p class="muted">This page is the contract in prose. The same thing
-  <a href="https://arcifact-gate.founder-ada.workers.dev/install">as
-  plain text</a>, generated from the gates that enforce it, is what a
-  machine should read.</p>
+  <p><b>Do not attach private workflow files to that email.</b> If the
+  repository is private we will send a Tresorit upload link, so your
+  configuration never sits in a mailbox. That is a smaller ask than it
+  sounds: we need the workflow directory, not your source.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 03</b> &middot; if it is public</div>
+  <h2>You do not have to ask us at all.</h2>
+  <p>The analyser runs on any public repository with no installation and
+  no account: <a href="/r/arcifact-dev/gate-demo">arcifact.io/r/&lt;org&gt;/&lt;repo&gt;</a>.
+  The same analysis, the same embargo, no conversation required.</p>
+  <p>A review is worth asking for when the repository is private, when
+  the estate is large enough that one repository is not the question, or
+  when you want the reasoning explained by the person who wrote it.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 04</b> &middot; what it costs</div>
+  <h2>From &pound;2,500 for one private repository.</h2>
+  <p>Credited in full against an annual subscription taken within sixty
+  days, so a review that leads somewhere costs nothing in the end and a
+  review that does not is still yours to keep.</p>
+  <p class="muted">Public repositories are analysed free, permanently,
+  and installing the App is free for the first five committers. The
+  review exists for teams who want proof before permissions, not as a
+  gate in front of the product. <a href="pricing">Full pricing</a>.</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// <b>&sect; 05</b> &middot; what we will not do</div>
+  <h2>Publish anything about you, at any point.</h2>
+  <p>A finding about your repository is yours. Nothing we compute is
+  published, aggregated into a public statistic that could identify you,
+  or shown to another customer. If we ever want to describe the pattern
+  in general terms we will ask first, and a refusal ends it.</p>
+  <p>We will also tell you what we could not check. A review that reports
+  only what it found, and stays quiet about what it could not read, is
+  the thing this company exists to object to.</p>
 </section>
 </main>
 <footer class="site-foot">

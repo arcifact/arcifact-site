@@ -41,7 +41,7 @@
 </svg></span> <span class="wm">ARCIFACT<span class="wm-dot">.</span></span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="bars"></span>Menu</button>
-<nav class="nav-links" id="site-nav" aria-label="Site"><a href="method">Method</a><a href="gate" aria-current="page">Gate</a><a href="pricing">Pricing</a><a href="model-evidence">Model Evidence</a><a href="oracle">Oracle</a><a href="verify">Verify</a><a href="pilot">Pilot</a><a class="nav-cta" href="install">Install the App</a></nav>
+<nav class="nav-links" id="site-nav" aria-label="Site"><a href="method">Method</a><a href="gate" aria-current="page">Gate</a><a href="pricing">Pricing</a><a href="review">Review</a><a href="model-evidence">Model Evidence</a><a href="oracle">Oracle</a><a href="verify">Verify</a><a href="pilot">Pilot</a><a class="nav-cta" href="install">Install the App</a></nav>
   </div>
 </header>
 <main id="main">
@@ -51,16 +51,49 @@
     <p class="sec-label">// arcifact gate &middot; ci assurance</p>
     <h1>A green gate is a claim.<br><span class="turn">Check what it actually proves.</span></h1>
     <p class="muted" style="max-width:44rem">
-      A required status check is supposed to mean that the work you
-      care about passed. On a large workflow it quietly stops meaning
-      that. A job runs in parallel with the gate. Another sits in its
-      needs while the gate never inspects its result. Or the gate's own
-      failure step is guarded by a condition that an upstream job
-      produces, so when that job fails the guard cannot be satisfied,
-      the step is skipped, and the gate goes green with nothing having
-      run. Arcifact Gate reads the declared workflow and finds the ways
-      your gate can turn green without the validation behind its claim
-      succeeding.
+      A required status check is supposed to mean that the work you care
+      about passed. On a large workflow it quietly stops meaning that.
+      Arcifact Gate reads the declared workflow and finds the ways your
+      gate can turn green without the validation behind its claim
+      succeeding, then shows you one concrete combination of results
+      where that happens.
+    </p>
+    <p style="margin-top:1.4rem">
+      <a class="btn" href="/r/arcifact-dev/gate-demo">Check a public
+      repository</a>
+      <a class="btn btn-quiet" href="review">Request a private
+      review</a>
+    </p>
+    <p class="muted" style="font-size:var(--text-sm);margin-top:.6rem">
+      No installation, no account. Static analysis, nothing executed,
+      and unknown stays unknown.
+    </p>
+
+    <div class="sec-label" style="margin-top:2.4rem">// what a finding
+    looks like</div>
+    <p class="muted" style="max-width:44rem">
+      <b>Observed</b> &middot; <span style="font-family:var(--mono,monospace)">windows-tests</span>
+      can fail while <span style="font-family:var(--mono,monospace)">all
+      tests passed</span> remains successful.<br>
+      <b>Why</b> &middot; the aggregate neither depends on the job nor
+      inspects its result.<br>
+      <b>Policy status</b> &middot; unverified. The job may be
+      intentionally advisory, and if it is, the record says so.<br>
+      <b>Minimal repair</b> &middot; add the dependency and inspect its
+      result.<br>
+      <b>Verification</b> &middot; recomputed offline from the supplied
+      workflow, by a verifier in the package.
+    </p>
+
+    <div class="sec-label" style="margin-top:2.4rem">// how it goes
+    wrong</div>
+    <p class="muted" style="max-width:44rem">
+      A job runs in parallel with the gate. Another sits in its
+      <span style="font-family:var(--mono,monospace)">needs</span> while
+      the gate never inspects its result. Or the gate's own failure step
+      is guarded by a condition that an upstream job produces, so when
+      that job fails the guard cannot be satisfied, the step is skipped,
+      and the gate goes green with nothing having run.
     </p>
     <p class="muted" style="max-width:44rem">
       This is the narrowest application of a general
