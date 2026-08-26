@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nine GitHub Actions behaviours that are not documented</title>
+<meta name="description" content="Nine behaviours of GitHub Actions required checks, each verified by experiment or observed in production, with receipts. Skipped jobs, continue-on-error, merge queues and cancelled runs.">
+<link rel="canonical" href="https://arcifact.io/actions-semantics">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Arcifact">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Nine GitHub Actions behaviours that are not documented">
+<meta property="og:description" content="Nine behaviours of GitHub Actions required checks, each verified by experiment or observed in production, with receipts. Skipped jobs, continue-on-error, merge queues and cancelled runs.">
+<meta property="og:url" content="https://arcifact.io/privacy">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://arcifact.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Arcifact, nothing asserted past evidence">
+<meta name="twitter:image" content="https://arcifact.io/og.png">
+<meta name="theme-color" content="#060914">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css?v=3b14df746e">
+<script type="application/ld+json">{"@context":"https://schema.org",
+"@type":"Organization","name":"Arcifact Ltd","url":"https://arcifact.io",
+"logo":"https://arcifact.io/og.png",
+"sameAs":["https://github.com/arcifact/arcifact-kit"],
+"contactPoint":{"@type":"ContactPoint","email":"ben@arcifact.io",
+"contactType":"sales"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does a skipped job satisfy a required status check?","acceptedAnswer":{"@type":"Answer","text":"A required status check whose job is SKIPPED is treated as satisfied. The pull request can merge without the job having run."}},{"@type":"Question","name":"Does continue-on-error make a failing job report success to needs?","acceptedAnswer":{"@type":"Answer","text":"A job marked `continue-on-error: true` that FAILS reports `success` in the `needs` context of its dependents, while the jobs API reports its conclusion as `failure`. Two of the platform's own surfaces disagree, and a gate reads the one that says success."}},{"@type":"Question","name":"Do pull_request jobs run in a GitHub merge queue?","acceptedAnswer":{"@type":"Answer","text":"A merge queue delivers the `merge_group` event, not `pull_request`. A job conditioned on the pull request event silently does not run in the queue, while its required check still reports green there."}},{"@type":"Question","name":"Does a run step use bash -e by default?","acceptedAnswer":{"@type":"Answer","text":"On Linux runners, `run:` executes as `bash -e`. A bare `false` in body position fails the step; the same word in a condition, a command list, or after `!` does not."}},{"@type":"Question","name":"Why does a required check name a job that does not exist?","acceptedAnswer":{"@type":"Answer","text":"A matrix job publishes check runs named `Job (param, param)`. A required context can therefore name something no job in the workflow is literally called."}},{"@type":"Question","name":"What does if: always() actually do to a gate?","acceptedAnswer":{"@type":"Answer","text":"`always()` is a constant, not a free variable. A gate guarded by it runs in every admissible world."}},{"@type":"Question","name":"Can a cancelled workflow run publish a green check?","acceptedAnswer":{"@type":"Answer","text":"A run cancelled by a concurrency group can publish a required check as SUCCESS, when the aggregate uses `always()` and accepts a cancelled dependency result."}},{"@type":"Question","name":"Can a later check run of the same name clear a failing one?","acceptedAnswer":{"@type":"Answer","text":"A later check run with the SAME NAME on the same head sha supersedes an earlier one for required status checks. A failing required check can be turned green by posting a second run of that name, and the pull request becomes mergeable."}},{"@type":"Question","name":"Why is a required check never reported?","acceptedAnswer":{"@type":"Answer","text":"A ruleset may require a context that no workflow in the repository publishes. GitHub renders `Expected \u2014 Waiting for status to be reported` indefinitely and does not say why. several of these are documented for steps and not for jobs, which is a documentation gap rather than a defect. One is a genuine divergence between two of the platform's own surfaces. The corpus reports what the runners do. assertions with no executable check are listed. A conformance corpus that hides which rows are unverified is a claim wearing a table."}}]}</script>
+</head>
+<body style="background:#060914;color:#cdddee">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="nav-inner frame">
+    <a class="nav-brand" href="./" aria-label="Arcifact home">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M 17.54,4.91 A 9 9 0 1 0 17.54,19.09"
+      fill="none" stroke="currentColor" stroke-width="2.3"
+      stroke-linecap="round"/>
+<circle cx="21" cy="12" r="2.7" fill="#5fdca3" stroke="none"/>
+</svg></span> <span class="wm">ARCIFACT<span class="wm-dot">.</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span class="bars"><span></span></span>Menu</button>
+<nav class="nav-links" id="site-nav" aria-label="Site"><a href="gate">Gate</a><a href="review">Review</a><a href="pricing">Pricing</a><a href="verify">Proof</a><a href="method">Research</a></nav>
+  </div>
+</header>
+<main class="frame" id="main">
+  <div class="marquee">
+    <span>arcifact &middot; nothing asserted past evidence</span>
+    <span>ARCIFACT LTD &middot; MMXXVI</span>
+  </div>
+
+<div class="hero">
+  <div class="hero-rule">Reference</div>
+  <h1>Nine behaviours of GitHub Actions<br><span class="turn">that are not documented.</span></h1>
+  <p class="lede">Each was verified by experiment or observed in
+  production, and each changes what a green required check proves.
+  GitHub publishes no executable specification of these; this is one.</p>
+  <p class="muted" style="font-size:var(--text-sm)">
+  Re-verified every time the machine-readable version at
+  <a href="/semantics">arcifact.io/semantics</a> is requested. Nothing
+  here names a repository whose owner did not publish it themselves.</p>
+</div>
+
+<section class="section legal" id="skip-satisfies-required">
+  <div class="sec-label">// <b>&sect; 01</b> &middot; observed in production</div>
+  <h2>Does a skipped job satisfy a required status check?</h2>
+  <p>A required status check whose job is SKIPPED is treated as satisfied. The pull request can merge without the job having run.</p>
+  <p class="muted"><b>How this was established.</b> observed in production.<br>&middot; vercel/next.js#97558<br>&middot; vercel/next.js#97551<br>&middot; vercel/next.js#97548</p>
+  <p class="muted"><b>What GitHub documents.</b> branch protection documentation does not state what a skipped required check does</p>
+  <p class="muted"><b>Why it matters.</b> 53% of jobs in a 265-repository corpus carry an `if:`, so this is the modal way a required check passes without doing its work</p>
+</section><section class="section legal" id="continue-on-error-masks-to-needs">
+  <div class="sec-label">// <b>&sect; 02</b> &middot; settled by experiment</div>
+  <h2>Does continue-on-error make a failing job report success to needs?</h2>
+  <p>A job marked `continue-on-error: true` that FAILS reports `success` in the `needs` context of its dependents, while the jobs API reports its conclusion as `failure`. Two of the platform&#x27;s own surfaces disagree, and a gate reads the one that says success.</p>
+  <p class="muted"><b>How this was established.</b> settled by experiment.<br>&middot; arcifact-dev/coe-semantics run 32402586923: RESULT flaky = success, RESULT honest = failure, identical failing steps, one marking apart</p>
+  <p class="muted"><b>What GitHub documents.</b> documented for STEPS. Not documented for jobs, and the surface disagreement is not documented at all</p>
+  <p class="muted"><b>Why it matters.</b> 176 real instances across a corpus could not settle it, because they were reading the API field rather than the needs field. The experiment has a named control, which is what makes it attributable</p>
+</section><section class="section legal" id="merge-queue-delivers-merge-group">
+  <div class="sec-label">// <b>&sect; 03</b> &middot; observed in production</div>
+  <h2>Do pull_request jobs run in a GitHub merge queue?</h2>
+  <p>A merge queue delivers the `merge_group` event, not `pull_request`. A job conditioned on the pull request event silently does not run in the queue, while its required check still reports green there.</p>
+  <p class="muted"><b>How this was established.</b> observed in production.<br>&middot; 7 incidental instances across 6 repositories; 4 further gates name merge_group deliberately</p>
+  <p class="muted"><b>What GitHub documents.</b> documented, but the consequence for required checks is not</p>
+  <p class="muted"><b>Why it matters.</b> the queue is the last gate before main, and this is where a check is most load-bearing</p>
+</section><section class="section legal" id="run-uses-bash-errexit">
+  <div class="sec-label">// <b>&sect; 04</b> &middot; settled by experiment</div>
+  <h2>Does a run step use bash -e by default?</h2>
+  <p>On Linux runners, `run:` executes as `bash -e`. A bare `false` in body position fails the step; the same word in a condition, a command list, or after `!` does not.</p>
+  <p class="muted"><b>How this was established.</b> settled by experiment.<br>&middot; executed across all four exception contexts: else-body exit 1, condition 0, list 0, negated 0</p>
+  <p class="muted"><b>What GitHub documents.</b> the default shell is documented; the errexit consequence is not</p>
+  <p class="muted"><b>Why it matters.</b> a recogniser was removed and restored over this single word, and five counterexamples in a shipped pack turned out to be false</p>
+</section><section class="section legal" id="matrix-legs-rename-contexts">
+  <div class="sec-label">// <b>&sect; 05</b> &middot; observed in production</div>
+  <h2>Why does a required check name a job that does not exist?</h2>
+  <p>A matrix job publishes check runs named `Job (param, param)`. A required context can therefore name something no job in the workflow is literally called.</p>
+  <p class="muted"><b>How this was established.</b> observed in production.<br>&middot; trpc/trpc: 29 of 35 required contexts are matrix legs<br>&middot; urfave/cli: job names are themselves expressions</p>
+  <p class="muted"><b>What GitHub documents.</b> matrix naming is documented; the join to required contexts is not</p>
+  <p class="muted"><b>Why it matters.</b> this single join produced a published claim that 58% of required contexts were federated hearsay. The true figure is 13%</p>
+</section><section class="section legal" id="always-is-a-tautology">
+  <div class="sec-label">// <b>&sect; 06</b> &middot; derived</div>
+  <h2>What does if: always() actually do to a gate?</h2>
+  <p>`always()` is a constant, not a free variable. A gate guarded by it runs in every admissible world.</p>
+  <p class="muted"><b>How this was established.</b> derived.<br>&middot; evaluated over the expression grammar</p>
+  <p class="muted"><b>What GitHub documents.</b> documented</p>
+  <p class="muted"><b>Why it matters.</b> treating it as a variable made a satisfiability check unsound in both directions</p>
+</section><section class="section legal" id="cancelled-run-can-publish-green">
+  <div class="sec-label">// <b>&sect; 07</b> &middot; observed in production  (observes production)</div>
+  <h2>Can a cancelled workflow run publish a green check?</h2>
+  <p>A run cancelled by a concurrency group can publish a required check as SUCCESS, when the aggregate uses `always()` and accepts a cancelled dependency result.</p>
+  <p class="muted"><b>How this was established.</b> observed in production  (observes production).<br>&middot; grafana/grafana runs 32363249879, 32362898101, 10 of 10 cancelled runs examined</p>
+  <p class="muted"><b>What GitHub documents.</b> not documented</p>
+  <p class="muted"><b>Why it matters.</b> cancellation is routine under cancel-in-progress, so this is a high-frequency path to a green that proves nothing</p>
+</section><section class="section legal" id="latest-check-run-supersedes">
+  <div class="sec-label">// <b>&sect; 08</b> &middot; settled by experiment  (observes production)</div>
+  <h2>Can a later check run of the same name clear a failing one?</h2>
+  <p>A later check run with the SAME NAME on the same head sha supersedes an earlier one for required status checks. A failing required check can be turned green by posting a second run of that name, and the pull request becomes mergeable.</p>
+  <p class="muted"><b>How this was established.</b> settled by experiment  (observes production).<br>&middot; arcifact-dev/gate-demo PR#3, sha d7f61a2d17a140be4d1f250bfa68195cdbab1530: supersession-test posted failure 19:37:44 then success 19:38:08; mergeable_state moved blocked -&gt; unstable, mergeable true, and GitHub&#x27;s own filter=latest returns the success</p>
+  <p class="muted"><b>What GitHub documents.</b> not documented</p>
+  <p class="muted"><b>Why it matters.</b> it means any workflow path that can produce a green run of a required check name can clear an earlier red one. A gate that exits 0 on some event is therefore not merely uninformative, it is an eraser.</p>
+</section><section class="section legal" id="required-context-may-have-no-producer">
+  <div class="sec-label">// <b>&sect; 09</b> &middot; observed in production  (observes production)</div>
+  <h2>Why is a required check never reported?</h2>
+  <p>A ruleset may require a context that no workflow in the repository publishes. GitHub renders the literal string <code>Expected — Waiting for status to be reported</code> indefinitely and does not say why. several of these are documented for steps and not for jobs, which is a documentation gap rather than a defect. One is a genuine divergence between two of the platform&#x27;s own surfaces. The corpus reports what the runners do. assertions with no executable check are listed. A conformance corpus that hides which rows are unverified is a claim wearing a table.</p>
+  <p class="muted"><b>How this was established.</b> observed in production  (observes production).<br>&middot; 26 of 67 open pull requests older than two hours were missing a required context; 14 were fork approvals</p>
+  <p class="muted"><b>What GitHub documents.</b> not documented</p>
+  <p class="muted"><b>Why it matters.</b> this is the highest-traffic confusion in the constituency and nothing in the platform diagnoses it</p>
+</section>
+
+<section class="section legal">
+  <div class="sec-label">// where this came from</div>
+  <h2>Every one of these was found by being wrong.</h2>
+  <p>None of these was researched in the abstract. Each was established
+  because an analyser said something confident and a repository proved
+  it wrong, and the rule that came out of it was written down with the
+  evidence rather than the intuition.</p>
+  <p>The machine-readable register is at
+  <a href="/semantics">arcifact.io/semantics</a> and re-runs its
+  assertions when you request it. The product that uses them is
+  <a href="gate">Arcifact Gate</a>: it reads a repository's declared
+  workflow and reports what a green required check actually establishes.</p>
+  <p><a class="btn" href="/r/arcifact-dev/gate-demo">Check a public
+  repository</a> <a class="btn btn-quiet" href="gate">What Gate does</a></p>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="frame">
+    <div class="foot-grid">
+      <div>
+        <h4>Arcifact</h4>
+        <p class="muted" style="font-size:var(--text-sm);max-width:26rem">
+          Exact answers about constrained systems, with certificates
+          the recipient can check without trusting the sender.
+          Independent research company registered in England.
+        </p>
+        <p class="muted" style="font-size:var(--text-sm);margin-top:.6rem">Company no. 17367182 &middot; Registered office: 128 City Road, London EC1V 2NX, United Kingdom.</p>
+      </div>
+      <div>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="gate">Arcifact Gate</a></li>
+        <li><a href="model-evidence">Model Evidence</a></li>
+        <li><a href="method">Method</a></li>
+        <li><a href="oracle">Oracle</a></li>
+        <li><a href="verify">Verify a record</a></li>
+        <li><a href="certificate">Reports and certificates</a></li>
+        <li><a href="evidence">Published results</a></li>
+        <li><a href="pilot">Begin</a></li>
+          <li><a href="https://github.com/arcifact/arcifact-kit">Verification kit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:ben@arcifact.io">ben@arcifact.io</a></li>
+          <li><a href="security">Security disclosure</a></li>
+          <li><a href="about">About</a></li>
+          <li><a href="install">Install</a></li>
+          <li><a href="pricing">Pricing</a></li>
+          <li><a href="privacy">Privacy</a></li>
+          <li><a href="terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-rule">
+      <span>&copy; 2026 ARCIFACT LTD &middot; arcifact.io</span>
+      <span>Patents pending GB2618664.3 &middot; GB2619009.0</span>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var nav=document.querySelector('.nav');
+  var btn=nav&&nav.querySelector('.nav-toggle');
+  var links=nav&&nav.querySelector('.nav-links');
+  if(!nav||!btn||!links)return;
+  nav.classList.add('js');           /* collapse only once JS is present */
+  function set(open){
+    nav.setAttribute('data-open',open?'true':'false');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+    btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+  }
+  set(false);
+  btn.addEventListener('click',function(){
+    set(nav.getAttribute('data-open')!=='true');
+  });
+  links.addEventListener('click',function(e){
+    if(e.target.tagName==='A')set(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')set(false);
+  });
+  document.addEventListener('click',function(e){
+    if(!nav.contains(e.target))set(false);
+  });
+  var mq=window.matchMedia('(min-width: 46.01rem)');
+  (mq.addEventListener?mq.addEventListener.bind(mq,'change'):mq.addListener.bind(mq))(function(){set(false);});
+})();
+</script>
+</body>
+</html>
