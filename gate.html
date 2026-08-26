@@ -179,40 +179,7 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="frame">
-    <p class="sec-label">// &sect; 02 &middot; a finding you can argue with</p>
-    <h2>Not an assertion. A world.</h2>
-    <p class="muted" style="max-width:44rem">
-      Saying a job sits outside your gate is a statement about a graph.
-      Every finding also carries a counterexample: one result per job, in
-      which that job fails and the gate still reports success. It reads
-      in ten seconds and you can disagree with it.
-    </p>
-    <p class="muted" style="max-width:44rem">
-      Each world is constructed and then checked, by evaluating your
-      gate's own condition under it. If your gate would go red, nothing
-      is emitted. A tool that can always produce a counterexample is
-      producing decoration.
-    </p>
-    <h2 style="margin-top:2rem">And a check on the instrument itself.</h2>
-    <p class="muted" style="max-width:44rem">
-      A clean report is the least informative thing an assurance tool can
-      give you. It looks identical to a tool that is broken, misconfigured
-      or pointed at the wrong file. So the review injects faults into your
-      workflow, one at a time, and reports whether each was caught: remove
-      a job from the gate's needs, absorb its failure step, weaken its
-      comparison, blind it entirely. Then it applies changes that should
-      raise nothing and checks that nothing is raised.
-    </p>
-    <p class="muted" style="max-width:44rem">
-      You get a sentence like <i>on this workflow, 6 of 6 injected faults
-      were detected and 3 of 3 harmless changes produced no false
-      gap</i>. It is a measurement on your file, not a claim about the
-      analyser in general.
-    </p>
-  </div>
-</section>
+
 
 <section class="section">
   <div class="frame">
@@ -292,35 +259,7 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="frame">
-    <p class="sec-label">// &sect; 05 &middot; what the platform actually does</p>
-    <h2>Some of this is not documented.</h2>
-    <p class="muted" style="max-width:44rem">
-      A skipped job satisfies a required check. A step marked
-      continue-on-error reports success to
-      <span style="font-family:var(--mono,monospace)">needs</span>
-      while the jobs API reports failure. A merge queue delivers
-      <span style="font-family:var(--mono,monospace)">merge_group</span>,
-      so a gate conditioned on the pull request event does not run there
-      at all. Whether that reads as a pass or blocks the queue depends on
-      how the check is required, which is a repository setting we cannot
-      see from outside, so the report says the gate is absent from the
-      queue rather than asserting the outcome.
-    </p>
-    <p class="muted" style="max-width:44rem">
-      And one I had to test for myself: a later check run of the same
-      name supersedes an earlier one in the combined status, so an app
-      holding <span style="font-family:var(--mono,monospace)">checks:
-      write</span> can clear a failing check of that name. GitHub can
-      bind a required check to an expected app, which narrows this; where
-      that binding is set, and we usually cannot see whether it is, the
-      route closes. Nine such findings are published as
-      executable checks and rerun against production on request. When
-      one stops holding, it stops being shown.
-    </p>
-  </div>
-</section>
+
 
 <section class="section">
   <div class="frame">
@@ -449,6 +388,21 @@ of my work is there. Continuous integration has the same problem. A green requir
   </div>
 </section>
 
+<section class="section">
+  <div class="frame">
+    <p class="sec-label">// if you want to argue with it</p>
+    <h2>The reasoning is on its own page.</h2>
+    <p class="muted" style="max-width:44rem">
+      Why a workflow is a set of worlds rather than a script, and which
+      parts of GitHub Actions are undocumented enough that we had to
+      establish them by experiment. It sits behind every finding here
+      and you do not need it to try the product.
+      <br><br>
+      <a class="btn btn-quiet" href="gate-technical">How Gate
+      reasons</a>
+    </p>
+  </div>
+</section>
 <section class="section">
   <div class="frame">
     <p class="sec-label">// questions people actually ask</p>
