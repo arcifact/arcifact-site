@@ -123,11 +123,35 @@
 
 <section class="section legal">
   <div class="sec-label">// <b>&sect; 05</b> &middot; what is not promised</div>
-  <h2>No uptime, no response time, no accuracy rate.</h2>
-  <p>The analysis depends on GitHub's API and on infrastructure we do not
-  own, and a number we cannot control is not a commitment we can make.
-  What it commits to instead is failing closed: when it cannot decide, it
-  says so and claims nothing.</p>
+  <h2>What is measured, and what is not promised.</h2>
+  <p><b>Measured and published.</b> The receiver checks itself every
+  six hours, and the result is at
+  <a href="/canary">arcifact.io/canary</a>. It returns 503 when the last
+  run found problems and 503 when it has never run, so any uptime
+  monitor can watch it. That is not a promise; it is an instrument you
+  can point something at.</p>
+  <p class="muted">What it has recorded so far, measured on
+  <b>27 August 2026</b> and offered as a description rather than a
+  commitment: 19,393 requests over eight days with zero errors at the
+  edge, and a cold analysis of a large repository in around fifteen
+  seconds. Eight days is not a track record. The date is here because a
+  figure with no date is a claim that decays quietly, and you would
+  otherwise have to take our word that there is nothing to hide.</p>
+  <p><b>What is still not promised.</b> No uptime figure, no response
+  time and no accuracy rate. The analysis depends on GitHub's API and on
+  infrastructure we do not own, and a number we cannot control is not a
+  commitment we can make. A supplier who publishes a target they cannot
+  influence is describing their hopes.</p>
+  <p><b>What is committed to.</b> Three things, all of them
+  entirely within our control.</p>
+  <p class="muted">
+  <b>Failing closed.</b> When the analysis cannot decide, it says so and
+  claims nothing.<br>
+  <b>A check run is never left in progress.</b> If the analysis cannot
+  complete, the run is completed as neutral with the reason.<br>
+  <b>The check we post is never required.</b> Nothing of yours merges or
+  blocks on our opinion.
+  </p>
   <p>Removing it is one click in your organisation's settings, and
   analysis stops immediately. One line on why you removed it is worth
   more to us than the install was.</p>
