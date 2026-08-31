@@ -1,0 +1,34 @@
+name: deploy
+
+# Push to main publishes the site: the same two acts the manual flow
+# documented (stamp the stylesheet hash, wrangler pages deploy), run by
+# the machine so the repository and the live site cannot drift apart
+# again. The workflow directory is removed from the upload so the
+# pipeline never publishes itself.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keep the pipeline out of the artefact
+        run: rm -rf .github
+      - name: Stamp the stylesheet hash (idempotent when css is unchanged)
+        run: python3 bust.py
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=arcifact --branch=main
