@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Keep the pipeline out of the artefact
-        run: rm -rf .github
+        run: rm -rf .github bust.py SEARCH-CONSOLE.md
       - name: Stamp the stylesheet hash (idempotent when css is unchanged)
         run: python3 bust.py
       - name: Deploy to Cloudflare Pages
